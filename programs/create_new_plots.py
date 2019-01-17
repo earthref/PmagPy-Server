@@ -105,8 +105,10 @@ def main():
                     os.system('make_magic_plots.py')
                     os.chdir('..')
                     command='rm -rf  /var/www/html/plots/' + magicId 
+                    f.write(command+'\n')
                     os.system(command) 
                     command='cp -rf ' + magicId + ' /var/www/html/plots' 
+                    f.write(command+'\n')
                     os.system(command) 
             line =fileList.readline()
             f.write(line)
@@ -124,7 +126,7 @@ def main():
             f.write(printout)
             t.sleep(w)
         else:
-            printout = "\nsleep will be " +str(w)+ " seconds\n"
+            printout = "\nsleep will be " +str(wait)+ " seconds\n"
             f.write(printout)
             t.sleep(wait)
         if f != sys.stdout:
