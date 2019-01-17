@@ -14,12 +14,12 @@ def main():
       Used on the MagIC pmagpy sever. Not for general use. 
 
       Queries the AWS S3 magic-contributions bucket for a list of files created since a number of seconds
-      in the past specified by the user(-p option). Files containing '.txt' are processed by make_magic_plots.py
-      to create plots for displaying on the contributions MagIC website entry. User can specify the time
-      to wait between querries. When the -a flag is set the program will use the command run time for the
-      look-back time to reduce the likelyhood of missing processing a file. The wait time is reduced by
-      the length of time it took to make the plots. After creating the plots locally, they are copied
-      over to /var/www/html/plots so the website can point to them.
+      in the past specified by the user (-p option). Files in the new directory containing '.txt' are 
+      processed by make_magic_plots.py to create plots for displaying on the MagIC website. People could
+      also grab plot files from here. User can specify the time to wait between querries. When the -a flag 
+      is set the program will use the command run time for the look-back time to reduce the likelyhood of 
+      missing processing a file. The wait time is reduced by the length of time it took to make the plots. 
+      After creating the plots locally, they are copied over to /var/www/html/plots for easy external access.
 
     SYNTAX
        create_new_plots.py [command line options]
