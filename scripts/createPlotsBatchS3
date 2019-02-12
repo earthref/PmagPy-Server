@@ -24,7 +24,7 @@ do
     mkdir ../tmp
     mv *.txt ../tmp
     cd ..
-    echo "aws s3 cp " + $newDir + " s3://magic-plots/"+$newDir+" --recursive'"
+    echo "aws s3 cp " + $newDir + " s3://magic-plots/"+$newDir+" --recursive"
     aws s3 cp $newDir s3://magic-plots/$newDir --recursive
     mv tmp/* $newDir
     rmdir tmp
