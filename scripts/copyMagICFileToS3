@@ -1,0 +1,27 @@
+# This bash script updates a magic_contribution_XXXXX file on S3. 
+# New plots should be created by create_new_plots.py and show up on the website
+
+file=$1
+echo file is $file
+if [ "$file" = "" ]; then
+    echo No filename given
+    exit
+fi
+
+echo file is $file
+startIndex=19 #number of chars in full fileDir name up to the _ at the start of the magic contribution number 
+echo startIndex is $startIndex
+expr index "file" . 
+endIndex=$(expr index "$file" .)  
+diffIndex=$endIndex-$startIndex-1
+echo endIndex is $endIndex
+echo diffIndex is $diffIndex
+newDir=${file:startIndex:diffIndex}
+echo Dirctory is $newDir
+rm -r $newDir
+mkdir $newDir
+cp $file $newDir
+echo Dirctory is $newDir
+aws s3 rm s3://magic-contributions/$newDir/ --recursive
+aws s3 cp $newDir s3://magic-contributions/$newDir --recursive
+echo done
