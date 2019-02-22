@@ -3,8 +3,8 @@
 # These files can be moved where needed.
 #plotDir=/home/magic/contributions/batchPlots
 plotDir=/home/magic/contributions/newPlots
-#fileDir=/home/magic/contributions/afterVersion3 #If the length of this changes, change startIndex below
-fileDir=/home/magic/contributions/newFiles90123 #If the length of this changes, change startIndex below
+fileDir=/home/magic/contributions/afterVersion3 #If the length of this changes, change startIndex below
+#fileDir=/home/magic/contributions/newFiles90123 #If the length of this changes, change startIndex below
 for file in $fileDir/*
 do
     echo file is $file

@@ -110,6 +110,12 @@ def main():
                     command='cp -rf ' + magicId + ' /var/www/html/plots' 
                     f.write(command+'\n')
                     os.system(command) 
+                    command='rm ' + magicId + '/*.txt' 
+                    f.write(command+'\n')
+                    os.system(command) 
+                    command='aws s3 cp ' + magicId + ' s3://magic-plots/' +magicId + ' --recursive' 
+                    f.write(command+'\n')
+                    os.system(command) 
             line =fileList.readline()
             f.write(line)
         fileList.close()
