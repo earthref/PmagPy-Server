@@ -2,8 +2,8 @@
 # This bash script runs all the magic_contribuion_XXXXX.txt files in $fileDir through make_magic_plots and puts the 
 # output in the $plotDir with a directory labeled with the magic Id and copies the directory over to S3 for easy MagIC website access.
 # These files can be moved where needed.
-plotDir=/home/magic/contributions/newPlots
-fileDir=/home/magic/contributions/newFiles90123 #If the length of this changes, change startIndex below
+plotDir=/home/magic/contributions/batchPlots
+fileDir=/home/magic/contributions/afterVersion3 #If the length of this changes, change startIndex below
 for file in $fileDir/*
 do
     echo file is $file
@@ -28,6 +28,7 @@ do
     aws s3 rm s3://magic-plots/$newDir/ --recursive
     aws s3 cp $newDir s3://magic-plots/$newDir --recursive
     mv tmp/* $newDir
+    cp -r $newDir /var/www/html/plots/
     rmdir tmp
 done
 
