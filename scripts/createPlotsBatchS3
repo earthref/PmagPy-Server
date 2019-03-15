@@ -1,6 +1,6 @@
 #!/bin/bash
 # This bash script runs all the magic_contribuion_XXXXX.txt files in $fileDir through make_magic_plots and puts the 
-# output in the $plotDir with a directory labeled with the magic Id and copies the directory over to S3 for easy MagIC website access.
+# output in the $plotDir and /var/www/html/plots with a directory labeled with the magic Id and copies the directory over to S3 for easy MagIC website access.
 # These files can be moved where needed.
 plotDir=/home/magic/contributions/batchPlots
 fileDir=/home/magic/contributions/afterVersion3 #If the length of this changes, change startIndex below
