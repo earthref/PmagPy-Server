@@ -5,7 +5,10 @@
 
 # These files can be moved where needed.
 plotDir=/home/magic/contributions/batchPlots
-fileDir=/home/magic/contributions/afterVersion3 #If the length of this changes, change startIndex below
+#fileDir=/home/magic/contributions/afterVersion3 #If the length of this changes, change startIndex below
+fileDir=/home/magic/contributions/afterV3Large0 #If the length of this changes, change startIndex below
+
+echo Start:$(date)
 for file in $fileDir/*
 do
     startIndex=59 #number of chars in full fileDir name up to the _ at the start of the magic contribution number (value needed is the column number of the last _)
@@ -71,5 +74,5 @@ do
         rmdir tmp
     fi
 done
-echo Done
+echo Done:$(date)
 
