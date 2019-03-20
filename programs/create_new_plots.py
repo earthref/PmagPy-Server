@@ -8,7 +8,7 @@ import time as t
 def main():
     """
     NAME
-      create_new_plots .py
+      create_new_plots.py
 
     DESCRIPTION
       Used on the MagIC pmagpy sever. Not for general use. 
@@ -98,6 +98,10 @@ def main():
                     os.system(command)
                     splitline=fileName.split('/')
                     magicId=splitline[0]
+                    # clear the bucket for Website "Making Plots" display purposes
+                    command='aws s3 mb s3://magic-plots/' +magicId  
+                    f.write(command+'\n')
+                    os.system(command) 
                     contribId=splitline[1]
                     os.chdir(magicId)
                     command='download_magic.py -f ' + contribId 
@@ -110,10 +114,19 @@ def main():
                     command='cp -rf ' + magicId + ' /var/www/html/plots' 
                     f.write(command+'\n')
                     os.system(command) 
-                    command='rm ' + magicId + '/*.txt' 
+                    command='aws s3 rm s3://magic-plots/' +magicId + ' --recursive' 
                     f.write(command+'\n')
                     os.system(command) 
-                    command='aws s3 cp ' + magicId + ' s3://magic-plots/' +magicId + ' --recursive' 
+                    command='aws s3 cp ' + magicId + ' s3://magic-plots/' +magicId + ' --recursive --include "*.png"'
+                    f.write(command+'\n')
+                    os.system(command) 
+                    command='aws s3 cp ' + magicId + ' s3://magic-plots/' +magicId + ' --recursive --include "contributions.txt" --include "errors.txt"' 
+                    f.write(command+'\n')
+                    os.system(command) 
+                    command='rm -r processed/' + magicId
+                    f.write(command+'\n')
+                    os.system(command) 
+                    command='mv ' + magicId +' processed' 
                     f.write(command+'\n')
                     os.system(command) 
             line =fileList.readline()
