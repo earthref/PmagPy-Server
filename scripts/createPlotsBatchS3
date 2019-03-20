@@ -11,6 +11,7 @@ fileDir=/home/magic/contributions/afterV3Large0 #If the length of this changes, 
 echo Start:$(date)
 for file in $fileDir/*
 do
+    echo $(date)
     startIndex=59 #number of chars in full fileDir name up to the _ at the start of the magic contribution number (value needed is the column number of the last _)
     echo startIndex is $startIndex
     endIndex=$(expr index $file .)  
@@ -72,6 +73,7 @@ do
         mv tmp/* $newDir
         cp -r $newDir /var/www/html/plots/
         rmdir tmp
+        echo $(date)
     fi
 done
 echo Done:$(date)
