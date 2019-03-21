@@ -6,7 +6,7 @@
 # These files can be moved where needed.
 plotDir=/home/magic/contributions/batchPlots
 #fileDir=/home/magic/contributions/afterVersion3 #If the length of this changes, change startIndex below
-fileDir=/home/magic/contributions/afterV3Large0 #If the length of this changes, change startIndex below
+fileDir=/home/magic/contributions/afterVersion3 #If the length of this changes, change startIndex below
 
 echo Start:$(date)
 for file in $fileDir/*
@@ -68,6 +68,8 @@ do
         mkdir ../tmp
         mv *.txt ../tmp
         cd ..
+        mv tmp/errors.txt $newDir
+        mv tmp/contribution.txt $newDir
         aws s3 rm s3://magic-plots/$newDir/ --recursive
         aws s3 cp $newDir s3://magic-plots/$newDir --recursive
         mv tmp/* $newDir
