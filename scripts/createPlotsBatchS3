@@ -78,5 +78,4 @@ do
         echo $(date)
     fi
 done
-echo Done:$(date)
-
+echo End:$(date)
