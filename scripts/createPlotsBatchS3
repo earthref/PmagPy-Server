@@ -20,40 +20,58 @@ do
     echo diffIndex is $diffIndex
     newDir=${file:startIndex:diffIndex}
 
-    if expr "$newDir" : "11821";
+    if [ $(expr "$newDir" : "11773") -eq 5 ] # expr returns 0 when regex matches
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "11846";
+    elif [ $(expr "$newDir" : "11846") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "14019";
+    elif [ $(expr "$newDir" : "14019") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "14127";
+    elif [ $(expr "$newDir" : "14127") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "14290";
+    elif [ $(expr "$newDir" : "14290") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "14575";
+    elif [ $(expr "$newDir" : "14575") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "15417";
+    elif [ $(expr "$newDir" : "15417") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "15454";
+    elif [ $(expr "$newDir" : "15454") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "15454";
+    elif [ $(expr "$newDir" : "15454") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "15640";
+    elif [ $(expr "$newDir" : "15736") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "16273";
+    elif [ $(expr "$newDir" : "15640") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
-    elif expr "$newDir" : "16302";
+    elif [ $(expr "$newDir" : "16072") -eq 5 ]
+    then
+        echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
+    elif [ $(expr "$newDir" : "16273") -eq 5 ]
+    then
+        echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
+    elif [ $(expr "$newDir" : "16320") -eq 5 ]
+    then
+        echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
+    elif [ $(expr "$newDir" : "16338") -eq 5 ]
+    then
+        echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
+    elif [ $(expr "$newDir" : "16410") -eq 5 ]
+    then
+        echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
+    elif [ $(expr "$newDir" : "16418") -eq 5 ]
+    then
+        echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
+    elif [ $(expr "$newDir" : "16501") -eq 5 ]
     then
         echo PlotServer: MagIC contribution $file has bad data or formatting. Skipping.
     else
