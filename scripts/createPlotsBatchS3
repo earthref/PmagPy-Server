@@ -93,7 +93,6 @@ do
         mv tmp/* $newDir
         cp -r $newDir /var/www/html/plots/
         rmdir tmp
-        echo $(date)
     fi
 done
 echo End:$(date)
