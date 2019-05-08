@@ -21,9 +21,13 @@ def main():
 
     OPTIONS
         -out [FILENAME] redirect stdout to this file. File will be appended to.
+        -sb [BUCKETNAME] name of the AWS S3 bucket that has the magic datafiles in it to make the plots from (source bucket).
+                         Default value - magic-contributions 
+        -pb [BUCKETNAME] name of the AWS S3 bucket to place the plots into (plot bucket).
+                         Default value - magic-plots 
 
     OUTPUT:
-
+        plots created to 
     EXAMPLE:
         run_batch_plots.py
 
@@ -34,6 +38,16 @@ def main():
     if '-h' in sys.argv: # check if help is needed
         print(main.__doc__)
         sys.exit() # graceful quit
+    if '-sb' in sys.argv: # check if help is needed
+        ind=sys.argv.index('-sb')
+        sourceBucket=sys.argv[ind+1]
+    else:
+        sourceBucket="magic-contributions"
+    if '-pb' in sys.argv: # check if help is needed
+        ind=sys.argv.index('-pb')
+        plotBucket=sys.argv[ind+1]
+    else:
+        plotBucket="magic-plots"
     if '-out' in sys.argv:
         ind=sys.argv.index('-out')
         logFile=int(sys.argv[ind+1])
@@ -44,7 +58,7 @@ def main():
 # Create tmp directory and copy MagIC files from S3
     print("start:", startTime)
     os.system('rm -r tmp')
-    command="aws s3 cp s3://test-magic tmp --recursive" 
+    command="aws s3 cp s3://" + sourceBucket + " tmp --recursive" 
     printout= command + "\n"
     f.write(printout)
     os.system(command)
@@ -71,11 +85,11 @@ def main():
             os.system("rm " + magicDir + "/*.txt")
             os.system("mv errors.txt " + magicDir)
             os.system("mv contribution.txt " + magicDir)
-            command="aws s3 rm s3://magic-plots/" + magicDir + " --recursive"
+            command="aws s3 rm s3://" + plotBucket + "/" + magicDir + " --recursive"
             printout= command + "\n"
             f.write(printout)
             os.system(command)
-            command="aws s3 cp " + magicDir + " s3://magic-plots/" + magicDir + " --recursive"
+            command="aws s3 cp " + magicDir + " s3://" + plotBucket + "/" + magicDir + " --recursive"
             printout= command + "\n"
             f.write(printout)
             os.system(command)
@@ -84,100 +98,6 @@ def main():
 
     endTime=datetime.datetime.now() 
     print("end:",endTime)
-
-    exit()
-
-
-
-    while(True):
-        startTime=datetime.datetime.now() 
-        d = timedelta(seconds=past)
-        printout="startTime="+str(startTime) + "\n"
-        f.write(printout)
-        printout="commandLength=" + str(commandLength) +"\n"
-        f.write(printout)
-        pastTime=startTime
-        if d < commandLength:
-            pastTime=startTime-commandLength
-            printout="Due to long processing time the look-back time has been extended to " +str(commandLength.total_seconds()) + " seconds" + "\n"
-            f.write(printout)
-        else:
-            pastTime=startTime-d
-
-        command='aws s3api list-objects --bucket "magic-contributions" --query' +" 'Contents[?LastModified>=`" + pastTime.isoformat() + "`][].{Key: Key, LastModified: LastModified}' > fileList" 
-        printout="command=" + command + "\n"
-        f.write(printout)
-        os.system(command)
-    
-        fileList=open("fileList",'r')
-        line=fileList.readline()
-        f.write(line)
-        while line!="":
-            if "Key" in line:
-                splitline=line.split('"')
-                fileName=splitline[3]
-                printout="fileName=" + fileName + "\n"
-                f.write(printout)
-                if ".txt" in fileName:
-                    command='aws s3 cp s3://magic-contributions/' + fileName +' ' + fileName
-                    printout="command=" + command + "\n"
-                    f.write(printout)
-                    os.system(command)
-                    splitline=fileName.split('/')
-                    magicId=splitline[0]
-                    # clear the bucket for Website "Making Plots" display purposes
-                    command='aws s3 mb s3://magic-plots/' +magicId  
-                    f.write(command+'\n')
-                    os.system(command) 
-                    contribId=splitline[1]
-                    os.chdir(magicId)
-                    command='download_magic.py -f ' + contribId 
-                    os.system(command)
-                    os.system('make_magic_plots.py')
-                    os.chdir('..')
-                    command='rm -rf  /var/www/html/plots/' + magicId 
-                    f.write(command+'\n')
-                    os.system(command) 
-                    command='cp -rf ' + magicId + ' /var/www/html/plots' 
-                    f.write(command+'\n')
-                    os.system(command) 
-                    command='aws s3 rm s3://magic-plots/' +magicId + ' --recursive' 
-                    f.write(command+'\n')
-                    os.system(command) 
-                    command='aws s3 cp ' + magicId + ' s3://magic-plots/' +magicId + ' --recursive --include "*.png"'
-                    f.write(command+'\n')
-                    os.system(command) 
-                    command='aws s3 cp ' + magicId + ' s3://magic-plots/' +magicId + ' --recursive --include "contributions.txt" --include "errors.txt"' 
-                    f.write(command+'\n')
-                    os.system(command) 
-                    command='rm -r processed/' + magicId
-                    f.write(command+'\n')
-                    os.system(command) 
-                    command='mv ' + magicId +' processed' 
-                    f.write(command+'\n')
-                    os.system(command) 
-            line =fileList.readline()
-            f.write(line)
-        fileList.close()
-        endTime=datetime.datetime.now() 
-        commandLength=endTime-startTime
-        if addTime:
-            w=wait-commandLength.total_seconds()
-            if w<0:
-                    w=0
-                    printout="Warning: make_magic_plots took longer to run than the wait time.\n"
-                    printout=printout +"Checking S3 for new MagIC data files immediately.\n"
-                    f.write(printout)
-            printout = "\nsleep will be " +str(w)+ " seconds\n"
-            f.write(printout)
-            t.sleep(w)
-        else:
-            printout = "\nsleep will be " +str(wait)+ " seconds\n"
-            f.write(printout)
-            t.sleep(wait)
-        if f != sys.stdout:
-            f.close() 
-#  end while
 
 if __name__ == "__main__":
     main()
