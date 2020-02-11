@@ -12,7 +12,7 @@ def main():
 
     DESCRIPTION
         Used only the MagIC pmagpy plot sever. It will create a tmp directory in the location where it is run. 
-        Downloads all activated MagIC data files from S3 and then creates plots using make_magic_plots.
+        Downloads all activated MagIC data files from S3 and then creates plots using new_make_magic_plots.
         Plots are uploaded to the S3 MagIC server and copied the local webserver for easy web access for debugging.
         Skips files in the bad_files list that have data formatting or missing data issues.
 
@@ -79,7 +79,7 @@ def main():
             printout= command + "\n"
             f.write(printout)
             os.system(command)
-            os.system("make_magic_plots.py")
+            os.system("new_make_magic_plots.py")
             os.chdir("..")
             os.system("cp -r " + magicDir + " /var/www/html/plots/")
             os.system("cp " + magicDir + "/errors.txt .") 
