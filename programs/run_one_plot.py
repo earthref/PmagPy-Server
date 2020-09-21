@@ -28,7 +28,7 @@ def main():
         plots created put on S3 
 
     EXAMPLE:
-        run_batch_plots.py -mcn 16769
+        run_one_plot.py -mcn 16769
 
     """
 
