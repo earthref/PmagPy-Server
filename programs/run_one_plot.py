@@ -12,7 +12,7 @@ def main():
 
     DESCRIPTION
         Used only on the MagIC pmagpy plot sever. It will create a tmp directory in the location where it is run. 
-        Downloads one MagIC data files from S3 and then creates plots using make_magic_plots.
+        Downloads one MagIC data file from S3 and then creates plots using make_magic_plots.
         Plots are uploaded to the S3 MagIC server and copied the local webserver for easy web access for debugging.
 
     SYNTAX
@@ -21,8 +21,11 @@ def main():
     OPTIONS
         -mcn [MagIC contribution number] MagIC contribution number of the data file.  
         -out [FILENAME] redirect stdout to this file. File will be appended to.
-        -sb [BUCKETNAME] name of the AWS S3 bucket that has the magic datafiles in it to make the plots from (source bucket).  Default value - magic-contributions 
-        -pb [BUCKETNAME] name of the AWS S3 bucket to place the plots into (plot bucket).  Default value - magic-plots 
+        -sb  [BUCKETNAME] name of the AWS S3 bucket that has the magic datafiles in 
+             it to make the plots from (source bucket).
+             Default value - magic-contributions 
+        -pb  [BUCKETNAME] name of the AWS S3 bucket to place the plots into (plot bucket).  
+             Default value - magic-plots 
 
     OUTPUT:
         plots created put on S3 
