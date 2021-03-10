@@ -46,6 +46,8 @@ def main():
     if '-mcn' in sys.argv:
         ind=sys.argv.index('-mcn')
         mcn=sys.argv[ind+1]
+    elif len(sys.argv) == 2:
+        mcn=sys.argv[1]
     else:
         print("MagIC contribution number not specified. Use -mcn to specify")
         sys.exit() # graceful quit
