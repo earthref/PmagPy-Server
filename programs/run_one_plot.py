@@ -65,7 +65,6 @@ def main():
 
     startTime=datetime.datetime.now() 
     print("start:", startTime)
-    print("For correct website plot formatting isServer=True must be set in pmag_env/set_env.py")
     print("")
 
 # Create tmp directory and copy MagIC files from S3
@@ -97,7 +96,8 @@ def main():
 
     endTime=datetime.datetime.now() 
     print("")
-    print("For correct website plot formatting isServer=True must be set in pmag_env/set_env.py")
+    print("isServer must be set to 'True' in pmag_env/set_env.py to produce website plots.")
+    print("This is a warning if you are running plots on your normal pmagpy install")
     print("end:",endTime)
 
 if __name__ == "__main__":
