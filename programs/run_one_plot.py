@@ -66,6 +66,11 @@ def main():
     startTime=datetime.datetime.now() 
     print("start:", startTime)
     print("")
+    print("Is isServer set to 'True' in pmag_env/set_env.py?")
+    isServer = input("Type 'n' or Ctrl-C to exit. Hit enter to continue.")
+    if isServer == 'n' or isServer == 'N':
+        sys.exit()
+
 
 # Create tmp directory and copy MagIC files from S3
     magicFile="magic_contribution_" + mcn + ".txt" 
