@@ -101,7 +101,7 @@ def main():
 
     endTime=datetime.datetime.now() 
     print("")
-    print("isServer must be set to 'True' in pmag_env/set_env.py to produce website plots.")
+    print("Remeber to set isServer back to 'False' if you are not running more plots")
     print("This is a warning if you are running plots on your normal pmagpy install")
     print("end:",endTime)
 
