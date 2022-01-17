@@ -118,12 +118,13 @@ def main():
                     os.system(command)
                     os.system('make_magic_plots.py')
                     os.chdir('..')
-                    command='rm -rf  /var/www/html/plots/' + magicId 
-                    f.write(command+'\n')
-                    os.system(command) 
-                    command='cp -rf ' + magicId + ' /var/www/html/plots' 
-                    f.write(command+'\n')
-                    os.system(command) 
+# Copy plots where they can be seen on the web for debugging
+#                    command='rm -rf  /var/www/html/plots/' + magicId 
+#                    f.write(command+'\n')
+#                    os.system(command) 
+#                    command='cp -rf ' + magicId + ' /var/www/html/plots' 
+#                    f.write(command+'\n')
+#                    os.system(command) 
                     command='aws s3 rm s3://magic-' + bucketName + 'plots/' +magicId + ' --recursive' 
                     f.write(command+'\n')
                     os.system(command) 
