@@ -46,7 +46,6 @@ def main():
     wait=30
     addTime=False
     commandLength = timedelta(seconds=1)
-    startTime=datetime.datetime.now() 
     bucketName=''
     if '-h' in sys.argv: # check if help is needed
         print(main.__doc__)
@@ -73,7 +72,7 @@ def main():
         elif sys.argv[ind+1] != 'public':
             print ('Unknown contribution type ',sys.argv[ind+1], '. "public" or "private" are acceptable types.')
     while(True):
-        startTime=datetime.datetime.now() 
+        startTime=datetime.datetime.utcnow() 
         d = timedelta(seconds=past)
         printout="startTime="+str(startTime) + "\n"
         f.write(printout)
@@ -143,6 +142,10 @@ def main():
             line =fileList.readline()
             f.write(line)
         fileList.close()
+        command='rm fileList'
+        f.write(command+'\n')
+        os.system(command)
+
         endTime=datetime.datetime.now() 
         commandLength=endTime-startTime
         if addTime:
