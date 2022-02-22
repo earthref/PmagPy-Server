@@ -3,6 +3,7 @@ import sys,os
 import pmagpy.pmag as pmag
 import datetime
 from datetime import timedelta
+from dateutil import tz
 import time as t
 
 def main():
@@ -13,13 +14,14 @@ def main():
     DESCRIPTION
       Used on the MagIC pmagpy sever. Not for general use. 
 
-      Queries the AWS S3 magic-contributions bucket for a list of files created since a number of seconds
-      in the past specified by the user (-p option). Files in the new directory containing '.txt' are 
-      processed by make_magic_plots.py to create plots for displaying on the MagIC website. People could
-      also grab plot files from here. User can specify the time to wait between querries. When the -a flag 
-      is set the program will use the command run time for the look-back time to reduce the likelyhood of 
-      missing processing a file. The wait time is reduced by the length of time it took to make the plots. 
-      After creating the plots locally, they are copied over to /var/www/html/plots for easy external access.
+      Queries the AWS S3 magic-contributions bucket for a list of files created since a number of 
+      seconds in the past specified by the user (-p option). Files in the new directory containing 
+      '.txt' are processed by make_magic_plots.py to create plots for displaying on the MagIC 
+      website. People could also grab plot files from here. User can specify the time to wait 
+      between querries. When the -a flag is set the program will use the command run time for the 
+      look-back time to reduce the likelyhood of missing processing a file. The wait time is reduced
+      by the length of time it took to make the plots.  After creating the plots locally, they are 
+      copied over to /var/www/html/plots for easy external access.
 
     SYNTAX
        create_new_plots.py [command line options]
@@ -27,7 +29,8 @@ def main():
     OPTIONS
        -p the time in seconds to check in the past for a new file to process. Default 35.
        -w the time in seconds to wait after processing before checking again. Default 30.
-       -a add the time the last cycle took to run to the -p value so it is less likely files are missed.
+       -a add the time the last cycle took to run to the -p value so it is less likely files are 
+          missed.
        -pt [TYPE] set to either 'public' or 'private'. This determines if the program looks for and
            processes private contributions or public ones. Default 'public'.
        -out [FILENAME] redirect stdout to this file. File will be appended to.
@@ -72,7 +75,7 @@ def main():
         elif sys.argv[ind+1] != 'public':
             print ('Unknown contribution type ',sys.argv[ind+1], '. "public" or "private" are acceptable types.')
     while(True):
-        startTime=datetime.datetime.utcnow() 
+        startTime=datetime.datetime.utcnow()  #utc needed because timestamps on S3 are in utc
         d = timedelta(seconds=past)
         printout="startTime="+str(startTime) + "\n"
         f.write(printout)
@@ -85,7 +88,16 @@ def main():
             f.write(printout)
         else:
             pastTime=startTime-d
-
+        format  = "%m/%d/%Y %H:%M:%S"
+        localZone=tz.tzlocal()
+        localPastTime=pastTime.astimezone(localZone)
+        isoTime=localPastTime.strftime(format)
+        print("pastTime",pastTime)
+        print("localPastTime",localPastTime)
+        print("pastTimeisoTime=",pastTime.isoformat())
+        print("isoTime=",isoTime)
+        localTime=localPastTime.strftime
+        exit()        
         command='aws s3api list-objects --bucket "magic-' + bucketName +'contributions" --query' +" 'Contents[?LastModified>=`" + pastTime.isoformat() + "`][].{Key: Key, LastModified: LastModified}' > fileList" 
         printout="command=" + command + "\n"
         f.write(printout)
@@ -146,7 +158,7 @@ def main():
         f.write(command+'\n')
         os.system(command)
 
-        endTime=datetime.datetime.now() 
+        endTime=datetime.datetime.utcnow()  #utc needed because timestamps on S3 are in utc
         commandLength=endTime-startTime
         if addTime:
             w=wait-commandLength.total_seconds()
