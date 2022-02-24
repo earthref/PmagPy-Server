@@ -97,7 +97,6 @@ def main():
         print("pastTimeisoTime=",pastTime.isoformat())
         print("isoTime=",isoTime)
         localTime=localPastTime.strftime
-        exit()        
         command='aws s3api list-objects --bucket "magic-' + bucketName +'contributions" --query' +" 'Contents[?LastModified>=`" + pastTime.isoformat() + "`][].{Key: Key, LastModified: LastModified}' > fileList" 
         printout="command=" + command + "\n"
         f.write(printout)
