@@ -38,11 +38,20 @@ def main():
     OUTPUT:
         plots files created in the /plots/[$MagIC_ID_number] of the MagIC contribution
 
-    EXAMPLE:
+    EXAMPLES:
         create_new_plots.py -p 65 -w 60
-        will wait 60 seconds before checking AWS for new files and process any that were created
-        less than 65 seconds ago.
 
+        Will wait 60 seconds before checking AWS for new files and process any that were created
+        less than 65 seconds ago.
+        -----------------------------------------------------------------------------------------
+
+		nice create_new_plots.py -a -out error.log &
+
+		Will run low priority, use default timing, adjust lookback depending on history,
+		write STDERR to the file "error.log", and run in the background
+
+        -----------------------------------------------------------------------------------------
+		Updated 2022-05-16
         Nick Jarboe
     """
     past=35
@@ -63,7 +72,8 @@ def main():
         addTime=True
     if '-out' in sys.argv:
         ind=sys.argv.index('-out')
-        logFile=int(sys.argv[ind+1])
+        logFile=sys.argv[ind+1]
+        print("logFile=", logFile)
         f = open(logFile, "a")
     else:
         f = sys.stdout
@@ -173,9 +183,10 @@ def main():
             printout = "\nsleep will be " +str(wait)+ " seconds\n"
             f.write(printout)
             t.sleep(wait)
-        if f != sys.stdout:
-            f.close() 
-#  end while
+#       end while
+
+    if f != sys.stdout:
+        f.close() 
 
 if __name__ == "__main__":
     main()
